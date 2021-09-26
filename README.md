@@ -1,6 +1,7 @@
 README
 
-This program contains simple code segments that were used to explore the functions of the Twitter API. The tweepy library was imported in Python, and was used to access the Twitter API. I focused on functions that I may want to utilize within the next phase of the project 2. 
+This program contains simple code segments that were used to explore the functions of the Twitter API. The tweepy library was imported in Python, and was used to access the Twitter API. I focused on functions that I may want to utilize within the next phase of the project 2. In addition, tweepy documentation https://docs.tweepy.org/en/v4.0.0/api.html
+and stackoverflow were used to generate and gain reference for these tests, specifically for syntax correction and reference. 
 
 
 The first example was to retrieve the usernames of tweets that appeared in the authenticated user's home_timeline. The results were as expected, displaying the usernames of the displayed tweets on the timeline. This was based on Tweepy documentation with slight modification. 
