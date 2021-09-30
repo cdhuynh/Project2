@@ -1,39 +1,40 @@
 import tweepy
-import os
 
-from google.cloud import language
+auth = tweepy.OAuthHandler("6LoIdh1Mip5jAyZ7YKwinqjRz", "WAc26venjlyTU56zC8KCvpT2Kk8mHRqTe9MjgQs3hPJSf64BmB")
+auth.set_access_token("1440794762852724736-H6vaoaeNa4BmnsUzHRK6kVZN8yzWv7", "SrHMoOA2RTUmRyBUq3yoDNdHJVxIJS7aVU9EZCukIcwRq")
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"KEY_PATH"
+api = tweepy.API(auth)
 
-# This is the example provided in the natural language API documentation:
-client = language.LanguageServiceClient()
-text = ""
-document = language.Document(content = text, type_= language.Document.Type.PLAIN_TEXT)
+# Based on the tweepy getting started program.
+public_tweets = api.home_timeline()
+for tweet in public_tweets:
+    print(tweet.user.screen_name)
 
-sentiment = client.analyze_sentiment(request={'document' : document}).document_sentiment
+print ("----Test---")
+# Simple test program based on specific user 'NASA'.
+user = api.get_user(user = "NASA")
+screen_name = "NASA"
+nasa_ID = user.id_str
+print("NASA's ID: " + nasa_ID)
+nasa_count = 5
 
-print("Text: {}".format(text))
-print("Sentiment: {}, {}".format(sentiment.score, sentiment.magnitude))
+# Retrieve the last 5 recent tweets from NASA, and the username.
+nasa_status = api.user_timeline(screen_name, count = nasa_count)
+print(user.screen_name)
+print(user.followers_count)
+for test_status in nasa_status:
+    print(test_status.id, test_status.text, end = "\n\n")
 
-# This is the next step to explore the npl api.
+api.create_favorite(1441567735448686592)
 
-
-
-client = language.LanguageServiceClient()
-text = """The Mona Lisa is a magnificent piece of work! It was created by Leonardo Da Vinci, an artist from Italy."""
-document = language.Document(content = text, type_= language.Document.Type.PLAIN_TEXT)
-
-entity_examples = client.analyze_entities(document=document, encoding_type='UTF32')
-print("Notable figure: {0}".format(entity_examples))
-
-client = language.LanguageServiceClient()
-text = """What would a pie be classified as in this API? In addition, would it detect the number of pie is repeated, such as pie, pie, pie,
-or would it return nothing in this field? Google Cloud Storage was something I wanted to use but could not get to work within
-this program. Here is a test to see if it can detect the word 'Rome'. Interesting to note how the word 'program' trends on the negative
-sentiment scale rating. """
-document = language.Document(content = text, type_= language.Document.Type.PLAIN_TEXT)
-
-entity_sentiment = client.analyze_entity_sentiment(document=document, encoding_type="UTF32")
-print("Combining the two: {0}".format(entity_sentiment))
+print("#Testing a StreamListener ---------------")
 
 
+class StreamListener(tweepy.StreamListener):
+    def on_status(self, status):
+        print(status.text)
+
+
+myStreamListener = StreamListener()
+myStream = tweepy.Stream(auth = api.auth, listener = myStreamListener)
+myStream.filter(follow=["11348282"])
