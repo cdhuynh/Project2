@@ -24,3 +24,11 @@ If the username is not spelled correctly, an error would occur (code 50) that st
 
 The fourth test was designed to test a stream listener. In this case, tweets were to be printed in real-time from a specified user. To do this, the stream was filtered and was set to stream only tweets from the NASA account by supplying the specified id. 
 The stream listener can also filter by tweets with certain phrases which was tested and successfully output the expected results. 
+
+------
+
+For the file **Social_Media_Analyzer.py**:
+
+The program is a simple implementation of a social media analyzer which is designed for a user to quickly obtain a specified amount of tweets which contain media. Currently, the minimum viable product (MVP) is to provide the url link for the associated media in a tweet, and provide an option for the user to download the associated media. This is to be updated in the future by including a stream listener. 
+
+In the file, the unit tests are contained at the bottom of the main program for organizational purposes. 
